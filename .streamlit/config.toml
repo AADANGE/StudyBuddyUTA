@@ -6,4 +6,4 @@
 font="serif"
 
 [server]
-fileWatcherType = "none"
+fileWatcherType = "poll"

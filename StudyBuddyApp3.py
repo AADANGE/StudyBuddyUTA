@@ -14,17 +14,18 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 load_dotenv()
 
 client = openai.OpenAI()
-model = "gpt-3.5-turbo"
+model = "gpt-4-turbo"
 #"gpt-4-1106-preview"  
 #"gpt-3.5-turbo"
 #"gpt-4o"
+#"gpt-4-turbo"
 
 # # Read the instruction file
 # with open('instructions1.txt', 'r') as file:
 #     instructions_data = file.read()
 
 #read instruction file from streamlit secrets
-instructions_streamlit = st.secrets["INSTRUCTIONS"]
+instructions_data = st.secrets["INSTRUCTIONS"]
 
 #  == Hardcoded ids to be used once the first code run is done and the assistant was created
 assis_id = "asst_f7hq4tAHr4cctjWjJZFkmoUx" 
@@ -78,7 +79,7 @@ if st.session_state.start_chat:
         run = client.beta.threads.runs.create(
             thread_id=st.session_state.thread_id,
             assistant_id=assis_id,
-            instructions=instructions_streamlit
+            instructions=instructions_data
         )
 
         while run.status != 'completed':
@@ -100,6 +101,7 @@ if st.session_state.start_chat:
             st.session_state.messages.append({"role": "assistant", "content": message.content[0].text.value})
             with st.chat_message("assistant"):
                 st.markdown(message.content[0].text.value)
+                #st.markdown(message.content[0].text.value, unsafe_allow_html=True)
 
 else:
     st.write("Click 'Start Chat' to begin.")
